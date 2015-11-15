@@ -2,17 +2,21 @@ package edu.baseplan.floor;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import org.apache.logging.log4j.Logger; 
+import org.apache.logging.log4j.LogManager;
 
 class BareFloorCell extends AbstractCell implements Serializable {
 
 	/**
 	 * 
 	 */
+	private static final Logger logger = LogManager.getLogger(BareFloorCell.class.getName());
 	private static final long serialVersionUID = -7566728965045014529L;
 	
 	BareFloorCell(int x, int y){
 		super(x,y);
-		_dirt = (int)(Math.random() * (10 - 0) + 1);
+		_dirt = (int)(Math.random() * (3 - 0));
+		logger.debug("creating " + this.getClass().getSimpleName() + " with " + _dirt + " units of dirt");
 	}
 
 	/**
@@ -22,6 +26,9 @@ class BareFloorCell extends AbstractCell implements Serializable {
 	 */
 	@Override
 	int getElevationGrade() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getElevationGrade() was called. return -" + _grade);
+			}
 		return _grade;
 	}
 
@@ -34,6 +41,13 @@ class BareFloorCell extends AbstractCell implements Serializable {
 		return FloorType.BAREFLOOR;
 	}
 
+	/**
+	 * It costs 1 power unit (integer) to traverse BareFloorCells
+	 */
+	@Override
+	int getPowerCost() {
+		return 1;
+	}
 	
 	@Override
 	public int hashCode() {

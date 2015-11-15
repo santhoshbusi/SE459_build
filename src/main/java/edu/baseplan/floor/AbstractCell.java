@@ -1,9 +1,12 @@
 package edu.baseplan.floor;
 
 import java.util.Arrays;
+import org.apache.logging.log4j.Logger; 
+import org.apache.logging.log4j.LogManager;
 
 abstract class AbstractCell {
 	
+	private static final Logger logger = LogManager.getLogger(AbstractCell.class.getName());
 	protected AbstractCell [] _adjacentCells;
 	protected int _dirt;
 	protected int _grade;
@@ -24,6 +27,9 @@ abstract class AbstractCell {
 	 * @return Adjacent AbstractCell Object in the direction relative to this AbstractCell
 	 */
 	AbstractCell getAdjacentCell(Direction direction){
+		if (logger.isDebugEnabled()) {
+			logger.debug("getAdjacentCell() was called. return - " + _adjacentCells[direction.ordinal()]);
+			}
 		return _adjacentCells[direction.ordinal()];
 	}
 	
@@ -47,10 +53,14 @@ abstract class AbstractCell {
 	int getDirt(){
 		if(!this.isClean()){
 			_dirt -= 1;
+			logger.info("Dirt Being Removed From Cell");
 			return 1;
 		}
-		else
+		else{
+			logger.info("No Dirt Present to Be Removed");
 			return 0;
+		}
+			
 	}
 	
 	/**
@@ -69,6 +79,14 @@ abstract class AbstractCell {
 	 */
 	abstract FloorType getFloorType();
 	
+	
+	/**
+	 * Implement to return the cost in power units (integer) traversing 
+	 * this cell will cost
+	 * @return
+	 */
+	abstract int getPowerCost();
+	
 	/**
 	 * Return x-coordinate of cell
 	 * @return
@@ -85,6 +103,13 @@ abstract class AbstractCell {
 		return _y;
 	}
 	
+	/**
+	 * Method for testing purposes, used to show the amount of dirt at this cell
+	 * @return
+	 */
+	int showDirtAmount(){
+		return _dirt;
+	}
 	
 	/**
 	 * Indicates dirt status of your AbstractCell Type

@@ -1,13 +1,16 @@
 package edu.baseplan.floor;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import org.apache.logging.log4j.Logger; 
+import org.apache.logging.log4j.LogManager;
 
 /**
  * A collection of AbstractCell objects that represent a floor
@@ -19,6 +22,7 @@ import java.util.List;
 class Floor {
 
 	//private AbstractCell[][] _floor;
+	private static final Logger logger = LogManager.getLogger(Floor.class.getName());
 	private List<List<AbstractCell>> _floor;
 	private AbstractCell _startingCell;
 	private List<ChargingStationCell> _setOfChargingStations;
@@ -41,6 +45,9 @@ class Floor {
 	 * @return the AbstractCell that is the starting cell for this floor.
 	 */
 	AbstractCell getStartingCell(){
+		if (logger.isDebugEnabled()) {
+			logger.debug("getStartingCell() was called. return - " + _startingCell);
+			}
 		return _startingCell;
 	}
 	
@@ -275,14 +282,17 @@ class Floor {
 	 * @param y y-coordinate of _floor 
 	 * @return
 	 */
-	String markCellAt(int x, int y){
+	String markCellAt(int x, int y, boolean showDirt){
 		StringBuilder sb = new StringBuilder();
 		for(int xi=0; xi<_floor.size(); xi++){
 			for(int yi=0; yi<_floor.get(xi).size(); yi++){
 				if(xi == x && yi == y)
 					sb.append("* ");
 				else
-					sb.append(_floor.get(xi).get(yi).toString()).append(" ");
+					if(!showDirt)
+						sb.append(_floor.get(xi).get(yi).toString()).append(" ");
+					else
+						sb.append(_floor.get(xi).get(yi).showDirtAmount()).append(" ");
 			}
 			sb.append("\n");
 		}
@@ -297,7 +307,7 @@ class Floor {
 		StringBuilder sb = new StringBuilder();
 		for(int x=0; x<_floor.size(); x++){
 			for(int y=0; y<_floor.get(x).size(); y++){
-				sb.append(queryCellAt(x, y)).append("\n").append(markCellAt(y,x)).append("\n");
+				sb.append(queryCellAt(x, y)).append("\n").append(markCellAt(y,x, false)).append("\n");
 			}
 		}
 		return sb.toString();
@@ -308,9 +318,12 @@ class Floor {
 	 * @param filename name of .cft file
 	 * @return true if floor construction is successful , false if not.
 	 */
-	boolean createFloorPlanFromFile(String filename){
+	boolean createFloorPlanFromFile(String filename) throws InvalidPathException{
 		//ArrayList<ArrayList<AbstractCell>> cellsFromLine = new ArrayList<ArrayList<AbstractCell>>();
-		Path path = FileSystems.getDefault().getPath("src/edu/cleansweep/tests",filename);
+		Path path = FileSystems.getDefault().getPath("src/main/resources",filename);
+		
+		if(path == null)
+			throw new InvalidPathException(filename, "path is null");
 		
 		//Reset list of charging stations
 		_setOfChargingStations = new ArrayList<ChargingStationCell>();

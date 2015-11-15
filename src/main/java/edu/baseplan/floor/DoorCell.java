@@ -3,18 +3,22 @@ package edu.baseplan.floor;
 import java.io.Serializable;
 import java.util.Random;
 import java.util.Arrays;
+import org.apache.logging.log4j.Logger; 
+import org.apache.logging.log4j.LogManager;
 
 class DoorCell extends AbstractCell implements Serializable {
 
 	/**
 	 * 
 	 */
+	private static final Logger logger = LogManager.getLogger(DoorCell.class.getName());
 	private static final long serialVersionUID = 3650207702512000586L;
 	private boolean _open;
 	
 	DoorCell(int x, int y){
 		super(x,y);
 		_open = new Random().nextBoolean();
+		logger.debug("Creating " + (_open ? "open" : "closed")  + " door");
 	}
 	
 	@Override
@@ -25,6 +29,14 @@ class DoorCell extends AbstractCell implements Serializable {
 			return FloorType.OBSTACLE;	
 	}
 
+	/**
+	 * Door Cells are ignored
+	 */
+	@Override
+	int getPowerCost() {
+		return 0;
+	}
+	
 	void open(){
 		_open = true;
 	}
@@ -35,6 +47,7 @@ class DoorCell extends AbstractCell implements Serializable {
 	
 	@Override
 	boolean isObstructed() {
+		logger.info("is Closed? : " + !_open);
 		return !_open;
 	}
 	
@@ -46,6 +59,10 @@ class DoorCell extends AbstractCell implements Serializable {
 		result = prime * result + (_open ? 1231 : 1237);
 		result = prime * result + _x;
 		result = prime * result + _y;
+		if (logger.isDebugEnabled()) {
+			logger.debug("hashCode() was called. return - " + result);
+			}
+
 		return result;
 	}
 
@@ -71,6 +88,9 @@ class DoorCell extends AbstractCell implements Serializable {
 
 	@Override
 	public String toString() {
-		return "D";
+		if(_open)
+			return "D";
+		else
+			return "\u00D0";
 	}
 }

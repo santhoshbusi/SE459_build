@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="WARN">
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="[%-5level] %d{yyyy.MM.dd HH:mm:ss} [%C{1}] %M - %msg%n" />
+		</Console>
+		
+		<RollingFile name="rollingfile" fileName="./logs/cleansweep-base.log"
+			filePattern="./logs/cleansweep-base-%d{yyyyMMddHHmmss}.log">
+			<PatternLayout>
+				<pattern>
+					[%-5level] %d{yyyy.MM.dd HH:mm:ss} [%C{1}] %M - %msg%n
+				</pattern>
+			</PatternLayout>
+			<Policies>
+			</Policies>
+		</RollingFile>
+	</Appenders>
+	
+	<Loggers>
+		<Logger name="edu.cleansweep.floor.BareFloorCell" level="info" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="rollingfile" />
+		</Logger>
+		<Logger name="edu.cleansweep.floor.AbstractCell" level="info" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="rollingfile" />
+		</Logger>
+		<Logger name="edu.cleansweep.floor.DoorCell" level="debug" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="rollingfile" />
+		</Logger>
+		<Logger name="edu.cleansweep.floor.FloorNavigationProxy" level="debug" additivity="false">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="rollingfile" />
+		</Logger>
+		<Root level="error">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="rollingfile" />
+		</Root>
+	</Loggers>
+</Configuration>

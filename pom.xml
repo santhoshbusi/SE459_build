@@ -15,11 +15,20 @@
   </properties>
 
   <dependencies>
-    	<dependency>
-    		<groupId>junit</groupId>
-    		<artifactId>junit</artifactId>
-    		<version>4.11</version> <!-- Or whatever JUnit you're using. -->
-		</dependency>
-		
-    </dependencies>
+  	<dependency>
+  		<groupId>org.hamcrest</groupId>
+  		<artifactId>hamcrest-junit</artifactId>
+  		<version>2.0.0.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.logging.log4j</groupId>
+  		<artifactId>log4j-api</artifactId>
+  		<version>2.4.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.logging.log4j</groupId>
+  		<artifactId>log4j-core</artifactId>
+  		<version>2.4.1</version>
+  	</dependency>
+  </dependencies>
 </project>

@@ -2,12 +2,15 @@ package edu.baseplan.floor;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import org.apache.logging.log4j.Logger; 
+import org.apache.logging.log4j.LogManager;
 
 class ChargingStationCell extends AbstractCell implements Serializable {
 
 	/**
 	 * 
 	 */
+	private static final Logger logger = LogManager.getLogger(ChargingStationCell.class.getName());
 	private static final long serialVersionUID = 2398805126052156212L;
 	
 	ChargingStationCell(int x, int y) {
@@ -19,7 +22,18 @@ class ChargingStationCell extends AbstractCell implements Serializable {
 	
 	@Override
 	FloorType getFloorType() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getFloorType() was called. return - " + FloorType.CHARGINGSTATION);
+			}
 		return FloorType.CHARGINGSTATION;
+	}
+	
+	/**
+	 * Charging Station Cells do not cost power units.
+	 */
+	@Override
+	int getPowerCost() {
+		return 0;
 	}
 	
 	@Override
@@ -54,4 +68,5 @@ class ChargingStationCell extends AbstractCell implements Serializable {
 	public String toString() {
 		return "C";
 	}
+
 }
