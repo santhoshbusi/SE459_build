@@ -20,19 +20,19 @@
 	</Appenders>
 	
 	<Loggers>
-		<Logger name="edu.cleansweep.floor.BareFloorCell" level="info" additivity="false">
+		<Logger name="edu.baseplan.floor.BareFloorCell" level="info" additivity="false">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="rollingfile" />
 		</Logger>
-		<Logger name="edu.cleansweep.floor.AbstractCell" level="info" additivity="false">
+		<Logger name="edu.baseplan.floor.AbstractCell" level="info" additivity="false">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="rollingfile" />
 		</Logger>
-		<Logger name="edu.cleansweep.floor.DoorCell" level="debug" additivity="false">
+		<Logger name="edu.baseplan.floor.DoorCell" level="debug" additivity="false">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="rollingfile" />
 		</Logger>
-		<Logger name="edu.cleansweep.floor.FloorNavigationProxy" level="debug" additivity="false">
+		<Logger name="edu.baseplan.floor.FloorNavigationProxy" level="debug" additivity="false">
 			<AppenderRef ref="console" />
 			<AppenderRef ref="rollingfile" />
 		</Logger>
